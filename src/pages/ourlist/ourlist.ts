@@ -26,12 +26,10 @@ export class OurlistPage {
     this.omfs.getAllPublicData()
     .subscribe(vals => {
       vals.map(val => {
-        console.log(val)
-        this.omfs.data = val;
         val.infoDate = val.infoDate.toDate();
         
         // 写真データを取得
-        this.ompfs.parentDocPath = this.omfs.docPath(this.omfs.pkey);
+        this.ompfs.parentDocPath = this.omfs.docPath(val.pkey);
         this.ompfs.getAllData().subscribe(vals => {
           val["photos"] = vals;
           this.ourmaps.push(val);
