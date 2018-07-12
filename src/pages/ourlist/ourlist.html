@@ -1,0 +1,43 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>みんなの一覧</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-padding>
+  
+  <ion-card *ngFor="let m of ourmaps">
+    <ion-card-content>
+      <ion-card-title>
+        {{m.title}}
+        <p>
+          <small *ngIf="m.infoDate">投稿日時:{{ m.infoDate | date:'short' }}</small><br>
+          <small>投稿者:{{ m.contributor }}</small>
+        </p>
+      </ion-card-title>
+      <ion-thumbnail text-left *ngFor="let d of data; first as first; last as last; index as i;">
+        <img src="img/card-saopaolo.png"/>
+      </ion-thumbnail>
+      <div [innerHtml]="m.description"></div>
+    </ion-card-content>
+    <!--
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-start clear small>
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div>ありがとう</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-start clear small>
+          <ion-icon name="bookmark"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+    -->
+  </ion-card>
+
+</ion-content>

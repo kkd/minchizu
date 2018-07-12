@@ -1,0 +1,42 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>みんなの地図 - 復旧/西日本豪雨</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="openModal()" disabled>
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-padding>
+  <agm-map #AgmMap
+    [latitude]="lat"
+    [longitude]="lng"
+    [zoom]="zoom"
+    >
+  
+    <agm-marker 
+        *ngFor="let m of ourmaps; let i = index"
+        [latitude]="m.latlon.latitude"
+        [longitude]="m.latlon.longitude"
+        [label]="m.labeloption"
+    >
+      
+      <agm-info-window>
+        <p>
+          <small>投稿日時:{{ m.infoDate | date:'short' }}</small><br>
+          <small>投稿者:{{ m.contributor }}</small>
+        </p>
+        <p>{{ m.title }}</p>
+        <div [innerHtml]="m.description"></div>
+      </agm-info-window>
+
+    </agm-marker>
+  
+  </agm-map>
+
+</ion-content>

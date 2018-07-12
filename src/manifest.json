@@ -1,0 +1,13 @@
+{
+  "name": "みんなの地図-西日本豪雨復旧に向けて",
+  "short_name": "みんなの地図",
+  "start_url": "index.html",
+  "display": "standalone",
+  "icons": [{
+    "src": "assets/imgs/logo.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }],
+  "background_color": "#44A5CB",
+  "theme_color": "#44A5CB"
+}
