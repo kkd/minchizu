@@ -10,6 +10,7 @@ import { AgmCoreModule } from '@agm/core';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 // 環境の切り替え
 import { environment } from "@app/environment";
@@ -23,6 +24,7 @@ import { OurMapsFirestoreProvider } from '../providers/firestore/ourmaps';
 import { OurMapPhotosFirestoreProvider } from '../providers/firestore/ourmapphotos';
 
 import { PhotoProvider } from '../providers/photo/photo';
+import { FireauthProvider } from '../providers/fireauth/fireauth';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { PhotoProvider } from '../providers/photo/photo';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireStorageModule,
+    AngularFireAuthModule,
     AgmCoreModule.forRoot(environment.googlemapConfig),
   ],
   bootstrap: [IonicApp],
@@ -57,7 +60,8 @@ import { PhotoProvider } from '../providers/photo/photo';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     OurMapsFirestoreProvider,
     OurMapPhotosFirestoreProvider,
-    PhotoProvider
+    PhotoProvider,
+    FireauthProvider
   ]
 })
 export class AppModule {}

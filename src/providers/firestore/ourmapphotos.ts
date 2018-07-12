@@ -1,9 +1,9 @@
+import { Observable } from 'rxjs/Rx';
 import { finalize } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase/app';
 
 import { AngularFireStorage } from 'angularfire2/storage';
-import { Storage } from '@ionic/storage';
 
 // Firestore
 import { FirestoreBase, DSBase } from './base';
@@ -17,6 +17,7 @@ import { PhotoProvider } from '../photo/photo';
 // みんなの地図情報（写真）
 // --------------------------------------------------
 export class DS_OurMapPhotos extends DSBase {
+  index: number = 0;                // 並び順
   fullImage: string = "";           // フルサイズ画像のURL
   thumbnail: string = "";           // サムネイルのURL
   latlon: any = null;               // 緯度経度
@@ -49,7 +50,6 @@ export class OurMapPhotosFirestoreProvider extends FirestoreBase{
     public afs: AngularFirestore,
     private afst: AngularFireStorage,
     private photopv: PhotoProvider,
-    private storage: Storage,
   ){
     super(afs);
   }
@@ -107,6 +107,19 @@ export class OurMapPhotosFirestoreProvider extends FirestoreBase{
     this.files = [];
   }
 
+  // --------------------------------------------
+  // --------------------------------------------
+  public getAllData(): Observable<DS_OurMapPhotos[]>{
+    if (!this.parentDocPath) console.log("parentDocPathが指定されてません")
+    
+    return this.afs.collection<any>(
+      this.collectionPath,
+      ref =>
+        ref
+        .orderBy("index", "desc")
+      ).valueChanges();
+  } 
+  
   // --------------------------------------------
   // バッチ登録＋アップロード
   // --------------------------------------------
@@ -170,12 +183,13 @@ export class OurMapPhotosFirestoreProvider extends FirestoreBase{
   // --------------------------------------------
   // 仮画像ファイルアップロード（→IndexedDB）
   // --------------------------------------------
-  public localUpload(file: File): Promise<string>{
+  public localUpload(file: File, index:number): Promise<string>{
     
     this.data = new DS_OurMapPhotos();
     
     return new Promise((resolve, reject) => {
       loadImage.parseMetaData(file, (data) => {
+        this.data.index = index;
         this.data.originFileName = file.name;
         this.data.originSize = file.size;
         this.data.fileExtension = file.type;
