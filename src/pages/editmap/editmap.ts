@@ -97,7 +97,7 @@ export class EditmapPage {
     if (files.length != 1) return;
     
     this.ompfs.new();
-    this.ompfs.localUpload(files[0]);
+    this.ompfs.localUpload(files[0], index);
   }
   
   //-----------------------------------------------------------------
