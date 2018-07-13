@@ -183,7 +183,7 @@ export class OurMapPhotosFirestoreProvider extends FirestoreBase{
   // --------------------------------------------
   // 仮画像ファイルアップロード（→IndexedDB）
   // --------------------------------------------
-  public localUpload(file: File, index:number): Promise<string>{
+  public localUpload(file: File, index:number): Promise<any>{
     
     this.data = new DS_OurMapPhotos();
     
@@ -216,7 +216,7 @@ export class OurMapPhotosFirestoreProvider extends FirestoreBase{
           this.photos.push(this.data);
           this.files.push(base64);
           
-          resolve();
+          resolve(this.data.latlon);
 
         }).catch(error => {
           console.log(error)

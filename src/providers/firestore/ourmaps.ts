@@ -46,7 +46,7 @@ export class OurMapsFirestoreProvider extends FirestoreBase{
     
   data: DS_OurMaps = new DS_OurMaps;
   collectionName: string = "OurMaps";
-    
+  
   constructor(
     public afs: AngularFirestore,
   ){
@@ -63,6 +63,12 @@ export class OurMapsFirestoreProvider extends FirestoreBase{
 
   public new() {
     this.data = new DS_OurMaps;
+  }
+
+  public setlatlon(lat?: number, lon?: number){
+    if (lat != null && lon != null){
+      this.data.latlon = new firebase.firestore.GeoPoint(lat, lon);
+    }
   }
 
   public getAllPublicData(): Observable<DS_OurMaps[]>{
