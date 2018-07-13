@@ -6,6 +6,8 @@ import * as firebase from 'firebase/app';
 import { FirestoreBase, DSBase } from './base';
 import { AngularFirestore } from 'angularfire2/firestore';
 
+import { FireauthProvider } from '../../providers/fireauth/fireauth';
+
 import { OurMapPhotosFirestoreProvider, DS_OurMapPhotos } from './ourmapphotos';
 
 export const CATEGORIES: {}[] = [
@@ -49,8 +51,9 @@ export class OurMapsFirestoreProvider extends FirestoreBase{
   
   constructor(
     public afs: AngularFirestore,
+    public auth: FireauthProvider,
   ){
-    super(afs);
+    super(afs, auth);
   }
 
   public makePkey(): string{

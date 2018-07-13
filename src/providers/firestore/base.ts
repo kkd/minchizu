@@ -4,11 +4,15 @@ import { Observable } from 'rxjs/Rx';
 import * as firebase from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
 
+import { FireauthProvider } from '../../providers/fireauth/fireauth';
+
 export class DSBase{
   uid: string = "";
   createdAt: any = null;
+  createdUid: string = "";
   pkey: string = "";
   updatedAt: any = null;
+  updatedUid: string = "";
 }
 
 export class FirestoreBase {
@@ -18,6 +22,7 @@ export class FirestoreBase {
 
   constructor(
     public afs: AngularFirestore,
+    public auth: FireauthProvider,
   ){
   }
   
@@ -88,7 +93,9 @@ export class FirestoreBase {
       // 新規登録の場合
       this.data.pkey = this.pkey;
       this.data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+      this.data.createdUid = this.auth.uid;
       this.data.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
+      this.data.updatedUid = this.auth.uid;
     }else{
       // 更新の場合
       this._updateCommon();
@@ -100,6 +107,7 @@ export class FirestoreBase {
   // --------------------------------------------
   public _updateCommon(){
     this.data.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
+    this.data.updatedUid = this.auth.uid;
   }
 
   // --------------------------------------------

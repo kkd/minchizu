@@ -9,6 +9,8 @@ import { AngularFireStorage } from 'angularfire2/storage';
 import { FirestoreBase, DSBase } from './base';
 import { AngularFirestore } from 'angularfire2/firestore';
 
+import { FireauthProvider } from '../../providers/fireauth/fireauth';
+
 // 画像を扱うJS
 import * as loadImage from 'blueimp-load-image';
 import { PhotoProvider } from '../photo/photo';
@@ -48,10 +50,11 @@ export class OurMapPhotosFirestoreProvider extends FirestoreBase{
 
   constructor(
     public afs: AngularFirestore,
+    public auth: FireauthProvider,
     private afst: AngularFireStorage,
     private photopv: PhotoProvider,
   ){
-    super(afs);
+    super(afs, auth);
   }
 
   get collectionPath(): string{

@@ -13,7 +13,7 @@ export class MyApp {
 
   constructor(
     private platform: Platform, 
-    public auth: FireauthProvider,
+    private auth: FireauthProvider,
   ) {
     // アプリ初期化
     this.initializeApp();
