@@ -53,7 +53,7 @@ export class EditmapPage {
     
     this.omfs.data.publicFlg = true;
     this.omfs.data.infoDate = firebase.firestore.FieldValue.serverTimestamp();
-    this.omfs.setlatlon(this.latitude, this.longitude);
+    this.omfs.setlatlon(Number(this.latitude), Number(this.longitude));
     
     if (this.omfs.data.category){
       for (let a of CATEGORIES){
@@ -106,7 +106,6 @@ export class EditmapPage {
     .then(latlon => {
       if (!this.latitude || !this.longitude){
         if (latlon){
-          console.log(latlon)
           this.latitude = latlon.latitude;
           this.longitude = latlon.longitude;
         }
