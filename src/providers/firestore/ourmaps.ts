@@ -6,6 +6,8 @@ import * as firebase from 'firebase/app';
 import { FirestoreBase, DSBase } from './base';
 import { AngularFirestore } from 'angularfire2/firestore';
 
+import { FireauthProvider } from '../../providers/fireauth/fireauth';
+
 import { OurMapPhotosFirestoreProvider, DS_OurMapPhotos } from './ourmapphotos';
 
 export const CATEGORIES: {}[] = [
@@ -39,6 +41,8 @@ export class DS_OurMaps extends DSBase {
   pref: string = ""                         // 県情報
   latlon: any = null;                       // 緯度経度
   publicFlg: boolean = false;               // 公開フラグ
+  viewPeriodFrom: string = null;            // 掲載期間（from）
+  viewPeriodTo: string = null;              // 掲載期間（To）
 }
 
 @Injectable()
@@ -46,11 +50,12 @@ export class OurMapsFirestoreProvider extends FirestoreBase{
     
   data: DS_OurMaps = new DS_OurMaps;
   collectionName: string = "OurMaps";
-    
+  
   constructor(
     public afs: AngularFirestore,
+    public auth: FireauthProvider,
   ){
-    super(afs);
+    super(afs, auth);
   }
 
   public makePkey(): string{
@@ -63,6 +68,12 @@ export class OurMapsFirestoreProvider extends FirestoreBase{
 
   public new() {
     this.data = new DS_OurMaps;
+  }
+
+  public setlatlon(lat?: number, lon?: number){
+    if (lat != null && lon != null){
+      this.data.latlon = new firebase.firestore.GeoPoint(lat, lon);
+    }
   }
 
   public getAllPublicData(): Observable<DS_OurMaps[]>{

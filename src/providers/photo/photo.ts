@@ -7,7 +7,6 @@ import * as loadImage from 'blueimp-load-image';
 export class PhotoProvider {
 
   constructor() {
-    console.log('Hello PhotoProvider Provider');
   }
 
   // 拡張子を取得する

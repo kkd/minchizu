@@ -16,6 +16,9 @@ export class EditmapPage {
   
   CATEGORIES = CATEGORIES;
 
+  latitude: number = null;
+  longitude: number = null;
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -29,7 +32,6 @@ export class EditmapPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad EditmapPage');
   }
 
   // --------------------------------------------
@@ -40,15 +42,18 @@ export class EditmapPage {
     let batch = this.afs.firestore.batch();
 
     // 位置情報
+    /*
     for (let p of this.ompfs.photos){
       if (p.latlon){
         this.omfs.data.latlon = p.latlon;
         break;
       }
     }
+    */
     
     this.omfs.data.publicFlg = true;
     this.omfs.data.infoDate = firebase.firestore.FieldValue.serverTimestamp();
+    this.omfs.setlatlon(this.latitude, this.longitude);
     
     if (this.omfs.data.category){
       for (let a of CATEGORIES){
@@ -97,7 +102,16 @@ export class EditmapPage {
     if (files.length != 1) return;
     
     this.ompfs.new();
-    this.ompfs.localUpload(files[0], index);
+    this.ompfs.localUpload(files[0], index)
+    .then(latlon => {
+      if (!this.latitude || !this.longitude){
+        if (latlon){
+          console.log(latlon)
+          this.latitude = latlon.latitude;
+          this.longitude = latlon.longitude;
+        }
+      }
+    })
   }
   
   //-----------------------------------------------------------------
@@ -108,6 +122,15 @@ export class EditmapPage {
     this.el.nativeElement.querySelector(selector).click();
   }
   
+  // --------------------------------------------
+  // 画面をクリアする
+  // --------------------------------------------
+  clear(){
+    this.ompfs.clear();
+    this.latitude = null;
+    this.longitude = null;
+  }
+
   // --------------------------------------------
   // 投稿後のメッセージ
   // --------------------------------------------
@@ -121,7 +144,7 @@ export class EditmapPage {
             text: "閉じる",
             handler: () => {
               this.omfs.new();
-              this.ompfs.clear();
+              this.clear();
             }
         }]
     });

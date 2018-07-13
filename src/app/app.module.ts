@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, LOCALE_ID, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
@@ -15,7 +15,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 // 環境の切り替え
 import { environment } from "@app/environment";
 
-import { AboutPage } from '../pages/about/about';
+import { SettingsPage } from '../pages/settings/settings';
 import { TabsPage } from '../pages/tabs/tabs';
 import { OurmapPage } from '../pages/ourmap/ourmap';
 import { OurlistPage } from '../pages/ourlist/ourlist';
@@ -26,12 +26,17 @@ import { OurMapPhotosFirestoreProvider } from '../providers/firestore/ourmapphot
 import { PhotoProvider } from '../providers/photo/photo';
 import { FireauthProvider } from '../providers/fireauth/fireauth';
 
+// 日本語ロケール
+import { registerLocaleData } from '@angular/common';
+import localeJa from '@angular/common/locales/ja';
+registerLocaleData(localeJa);
+
 @NgModule({
   declarations: [
     MyApp,
     OurmapPage,
     EditmapPage,
-    AboutPage,
+    SettingsPage,
     OurlistPage,
     TabsPage
   ],
@@ -52,12 +57,13 @@ import { FireauthProvider } from '../providers/fireauth/fireauth';
     MyApp,
     OurmapPage,
     EditmapPage,
-    AboutPage,
+    SettingsPage,
     OurlistPage,
     TabsPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: LOCALE_ID, useValue: navigator.language },
     OurMapsFirestoreProvider,
     OurMapPhotosFirestoreProvider,
     PhotoProvider,

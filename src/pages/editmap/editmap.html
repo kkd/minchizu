@@ -30,6 +30,30 @@
 
     <ion-list>
       <ion-item-group>
+        <ion-item-divider color="light">位置情報がない場合、こちらで設定も可能です<br>※地図に掲載するには位置情報が必要となります</ion-item-divider>
+        <ion-grid>
+          <!--
+          <ion-row>
+            <ion-col><button ion-button>現在地をセットする</button></ion-col>
+            <ion-col><button ion-button type="button" [navPush]="pushPage" [navParams]="params">地図からセットする</button></ion-col>
+          </ion-row>
+          -->
+          <ion-row>
+            <ion-item>
+              <ion-input type="number" placeholder="緯度" name="latitude"
+                [(ngModel)]="latitude"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input type="number" placeholder="経度" name="longitude"
+                [(ngModel)]="longitude"></ion-input>
+            </ion-item>
+          </ion-row>
+        </ion-grid>
+      </ion-item-group>
+    </ion-list>
+
+    <ion-list>
+      <ion-item-group>
         <ion-item-divider color="light">情報を入力ください</ion-item-divider>
         <ion-item>
           <ion-input type="text" placeholder="タイトル" name="title"
@@ -42,6 +66,22 @@
         <ion-item>
           <ion-textarea placeholder="詳細情報" rows="5" name="description"
             [(ngModel)]="omfs.data.description" #description="ngModel"></ion-textarea>
+        </ion-item>
+      </ion-item-group>
+    </ion-list>
+
+    <ion-list>
+      <ion-item-group>
+        <ion-item-divider color="light">掲載期間がある場合は入力ください</ion-item-divider>
+        <ion-item>
+          <ion-label>掲載開始日</ion-label>
+          <ion-input type="date" placeholder="掲載開始日" name="viewPeriodFrom"
+            [(ngModel)]="omfs.data.viewPeriodFrom" #viewPeriodFrom="ngModel"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>掲載終了日</ion-label>
+          <ion-input type="date" placeholder="掲載終了日" name="viewPeriodTo"
+            [(ngModel)]="omfs.data.viewPeriodTo" #viewPeriodTo="ngModel"></ion-input>
         </ion-item>
       </ion-item-group>
     </ion-list>
@@ -61,7 +101,7 @@
     </ion-list>
   
     <ion-list>
-      <button ion-button outline round block>投降する</button>
+      <button ion-button round block>投稿する</button>
     </ion-list>
 
     <input id="fileinput0" type="file" accept="image/*" hidden
