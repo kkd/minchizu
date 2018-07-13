@@ -65,11 +65,15 @@ export class OurmapPage {
                                 fillColor: "blue",
                               }
           
-          val["labeloption"] = {
-                                color: 'white',
-                                fontFamily: 'Fontawesome',
-                                text: val.marker,
-                              }
+          if (val.marker != ""){
+            val["labeloption"] = {
+                                  color: 'white',
+                                  fontFamily: 'Fontawesome',
+                                  text: val.marker,
+                                }
+          }else{
+            val["labeloption"] = {};
+          }
 
           val.infoDate = val.infoDate.toDate();
 
