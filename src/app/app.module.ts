@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, LOCALE_ID, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
@@ -25,6 +25,11 @@ import { OurMapPhotosFirestoreProvider } from '../providers/firestore/ourmapphot
 
 import { PhotoProvider } from '../providers/photo/photo';
 import { FireauthProvider } from '../providers/fireauth/fireauth';
+
+// 日本語ロケール
+import { registerLocaleData } from '@angular/common';
+import localeJa from '@angular/common/locales/ja';
+registerLocaleData(localeJa);
 
 @NgModule({
   declarations: [
@@ -58,6 +63,7 @@ import { FireauthProvider } from '../providers/fireauth/fireauth';
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: LOCALE_ID, useValue: navigator.language },
     OurMapsFirestoreProvider,
     OurMapPhotosFirestoreProvider,
     PhotoProvider,

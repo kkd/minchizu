@@ -70,6 +70,22 @@
       </ion-item-group>
     </ion-list>
 
+    <ion-list>
+      <ion-item-group>
+        <ion-item-divider color="light">掲載期間がある場合は入力ください</ion-item-divider>
+        <ion-item>
+          <ion-label>掲載開始日</ion-label>
+          <ion-input type="date" placeholder="掲載開始日" name="viewPeriodFrom"
+            [(ngModel)]="omfs.data.viewPeriodFrom" #viewPeriodFrom="ngModel"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>掲載終了日</ion-label>
+          <ion-input type="date" placeholder="掲載終了日" name="viewPeriodTo"
+            [(ngModel)]="omfs.data.viewPeriodTo" #viewPeriodTo="ngModel"></ion-input>
+        </ion-item>
+      </ion-item-group>
+    </ion-list>
+
     <ion-list radio-group name="category"
           [(ngModel)]="omfs.data.category" #category="ngModel">
       <ion-item-group>

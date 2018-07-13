@@ -41,6 +41,8 @@ export class DS_OurMaps extends DSBase {
   pref: string = ""                         // 県情報
   latlon: any = null;                       // 緯度経度
   publicFlg: boolean = false;               // 公開フラグ
+  viewPeriodFrom: string = "1111-01-01";    // 掲載期間（from）
+  viewPeriodTo: string = "9999-12-31";      // 掲載期間（To）
 }
 
 @Injectable()
