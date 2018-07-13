@@ -15,11 +15,11 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 // 環境の切り替え
 import { environment } from "@app/environment";
 
-import { SettingsPage } from '../pages/settings/settings';
+import { SettingsPageModule } from '../pages/settings/settings.module';
 import { TabsPage } from '../pages/tabs/tabs';
-import { OurmapPage } from '../pages/ourmap/ourmap';
-import { OurlistPage } from '../pages/ourlist/ourlist';
-import { EditmapPage } from '../pages/editmap/editmap';
+import { OurmapPageModule } from '../pages/ourmap/ourmap.module';
+import { OurlistPageModule } from '../pages/ourlist/ourlist.module';
+import { EditmapPageModule } from '../pages/editmap/editmap.module';
 import { OurMapsFirestoreProvider } from '../providers/firestore/ourmaps';
 import { OurMapPhotosFirestoreProvider } from '../providers/firestore/ourmapphotos';
 
@@ -34,10 +34,6 @@ registerLocaleData(localeJa);
 @NgModule({
   declarations: [
     MyApp,
-    OurmapPage,
-    EditmapPage,
-    SettingsPage,
-    OurlistPage,
     TabsPage
   ],
   imports: [
@@ -46,6 +42,10 @@ registerLocaleData(localeJa);
     IonicStorageModule.forRoot({
        name: environment.ionicstorage.name,
     }),
+    OurmapPageModule,
+    EditmapPageModule,
+    SettingsPageModule,
+    OurlistPageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireStorageModule,
@@ -55,10 +55,6 @@ registerLocaleData(localeJa);
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    OurmapPage,
-    EditmapPage,
-    SettingsPage,
-    OurlistPage,
     TabsPage
   ],
   providers: [
