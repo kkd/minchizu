@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { OurmapPage } from '../ourmap/ourmap';
 import { EditmapPage } from '../editmap/editmap';
-import { AboutPage } from '../about/about';
+import { SettingsPage } from '../settings/settings';
 import { OurlistPage } from '../ourlist/ourlist';
 
 @Component({
@@ -13,7 +13,7 @@ export class TabsPage {
   tab1Root = OurmapPage;
   tab2Root = OurlistPage;
   tab3Root = EditmapPage;
-  tab4Root = AboutPage;
+  tab4Root = SettingsPage;
 
   constructor() {
 
