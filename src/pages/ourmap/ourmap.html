@@ -32,7 +32,7 @@
           <small>投稿者:{{ m.contributor }}</small>
         </p>
         <p>{{ m.title }}</p>
-        <div [innerHtml]="m.description"></div>
+        <div [innerHtml]="m.description | multilineText"></div>
       </agm-info-window>
 
     </agm-marker>
