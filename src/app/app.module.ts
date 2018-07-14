@@ -16,9 +16,10 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from "@app/environment";
 
 import { SettingsPageModule } from '../pages/settings/settings.module';
-import { TabsPage } from '../pages/tabs/tabs';
+import { TabsPageModule } from '../pages/tabs/tabs.module';
 import { OurmapPageModule } from '../pages/ourmap/ourmap.module';
 import { OurlistPageModule } from '../pages/ourlist/ourlist.module';
+import { OurlistDetailPageModule } from '../pages/ourlist-detail/ourlist-detail.module';
 import { EditmapPageModule } from '../pages/editmap/editmap.module';
 import { OurMapsFirestoreProvider } from '../providers/firestore/ourmaps';
 import { OurMapPhotosFirestoreProvider } from '../providers/firestore/ourmapphotos';
@@ -34,7 +35,6 @@ registerLocaleData(localeJa);
 @NgModule({
   declarations: [
     MyApp,
-    TabsPage
   ],
   imports: [
     BrowserModule,
@@ -42,10 +42,12 @@ registerLocaleData(localeJa);
     IonicStorageModule.forRoot({
        name: environment.ionicstorage.name,
     }),
+    TabsPageModule,
     OurmapPageModule,
     EditmapPageModule,
     SettingsPageModule,
     OurlistPageModule,
+    OurlistDetailPageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireStorageModule,
@@ -55,7 +57,6 @@ registerLocaleData(localeJa);
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    TabsPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

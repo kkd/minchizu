@@ -1,5 +1,3 @@
-import * as Moment from 'moment';
-import { Observable } from 'rxjs/Rx';
 import { Component, ViewChild  } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -7,7 +5,6 @@ import { AgmMap, LatLngBounds } from '@agm/core';
 declare var google: any;
 
 import { OurMapsFirestoreProvider, DS_OurMaps } from '../../providers/firestore/ourmaps';
-import { OurMapPhotosFirestoreProvider } from '../../providers/firestore/ourmapphotos';
 
 
 @IonicPage()
@@ -33,7 +30,6 @@ export class OurmapPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     private omfs: OurMapsFirestoreProvider,
-    private ompfs: OurMapPhotosFirestoreProvider,
   ) {
   }
 

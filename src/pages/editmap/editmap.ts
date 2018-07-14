@@ -5,7 +5,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
 
 import { OurMapsFirestoreProvider, CATEGORIES } from '../../providers/firestore/ourmaps';
-import { OurMapPhotosFirestoreProvider, DS_OurMapPhotos } from '../../providers/firestore/ourmapphotos';
+import { OurMapPhotosFirestoreProvider } from '../../providers/firestore/ourmapphotos';
 
 @IonicPage()
 @Component({

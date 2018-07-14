@@ -3,4 +3,10 @@ page-ourmap {
     height: 100%;
   }
 
+  .agm-info-window-content {
+    width: 250px;
+    height: 250px;
+    overflow: scroll;
+  }
+
 }

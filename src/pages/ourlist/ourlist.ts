@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { OurMapsFirestoreProvider, DS_OurMaps,  } from '../../providers/firestore/ourmaps';
-import { OurMapPhotosFirestoreProvider } from '../../providers/firestore/ourmapphotos';
+//import { OurMapPhotosFirestoreProvider } from '../../providers/firestore/ourmapphotos';
 
 @IonicPage()
 @Component({
@@ -17,7 +17,7 @@ export class OurlistPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     private omfs: OurMapsFirestoreProvider,
-    private ompfs: OurMapPhotosFirestoreProvider,
+    //private ompfs: OurMapPhotosFirestoreProvider,
   ) {
   }
 
@@ -27,13 +27,15 @@ export class OurlistPage {
     .subscribe(vals => {
       vals.map(val => {
         val.infoDate = val.infoDate.toDate();
-        
+        this.ourmaps.push(val);
+        /*
         // 写真データを取得
         this.ompfs.parentDocPath = this.omfs.docPath(val.pkey);
         this.ompfs.getAllData().subscribe(vals => {
           val["photos"] = vals;
           this.ourmaps.push(val);
         })
+        */
       })
     })
   }

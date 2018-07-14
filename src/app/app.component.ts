@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 
-import { TabsPage } from '../pages/tabs/tabs';
-
 import { FireauthProvider } from '../providers/fireauth/fireauth';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = TabsPage;
+  rootPage:any = "TabsPage";
 
   constructor(
     private platform: Platform, 

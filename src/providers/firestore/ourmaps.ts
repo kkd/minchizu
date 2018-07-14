@@ -8,8 +8,6 @@ import { AngularFirestore } from 'angularfire2/firestore';
 
 import { FireauthProvider } from '../../providers/fireauth/fireauth';
 
-import { OurMapPhotosFirestoreProvider, DS_OurMapPhotos } from './ourmapphotos';
-
 export const CATEGORIES: {}[] = [
   {group: "生活", array: [
     {icon: "water",             name: "給水所",                     value: "water",           marker: "\uf043"},
