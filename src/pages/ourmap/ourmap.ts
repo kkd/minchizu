@@ -60,7 +60,17 @@ export class OurmapPage {
       vals.map(val => {
         // 位置情報が設定されているデータのみ
         if (val.latlon){
-          
+          let category = this.omfs.getMarkerInfo(val.category);
+
+          if (category){
+            if (category["icon"]){
+              val["iconUrl"] = {
+                                  url: '../../../assets/mapmarker/' + category["icon"] + '.png',
+                                  scaledSize: {width: 20, height: 20}
+                              }
+            }
+          }
+          /*
           if (val.marker != ""){
             val["labeloption"] = {
                                   color: 'white',
@@ -70,6 +80,7 @@ export class OurmapPage {
           }else{
             val["labeloption"] = {};
           }
+          */
 
           val.infoDate = val.infoDate.toDate();
 
