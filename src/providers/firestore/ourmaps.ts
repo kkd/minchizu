@@ -22,6 +22,7 @@ export const CATEGORIES: {}[] = [
   {group: "復興作業", array:[
     {icon: "volanteercenter",   name: "ボランティア募集/センター",  value: "volanteercenter", marker: "\uf004"},
     {icon: "reliefgoods",       name: "物資拠点",                   value: "reliefgoods",     marker: "\uf0d1"},
+    {icon: "report",            name: "被害報告",                   value: "report",          marker: ""},
   ]},
 ];
 

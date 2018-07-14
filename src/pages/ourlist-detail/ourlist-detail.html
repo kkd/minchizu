@@ -10,7 +10,14 @@
 <ion-content no-padding>
   <ion-card-content>
     <ion-card-title>
-      {{ourmap.title}}
+      <ion-row>
+        <ion-col col-1>
+          <img src="../../../assets/mapmarker/{{ourmap.category}}.png"/>
+        </ion-col>
+        <ion-col>
+          {{ourmap.title}}
+        </ion-col>
+      </ion-row>
     </ion-card-title>
     <p>
       <small *ngIf="ourmap.infoDate">投稿日時:{{ ourmap.infoDate }}</small><br>
