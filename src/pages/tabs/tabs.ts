@@ -1,19 +1,16 @@
 import { Component } from '@angular/core';
+import { IonicPage } from 'ionic-angular';
 
-import { OurmapPage } from '../ourmap/ourmap';
-import { EditmapPage } from '../editmap/editmap';
-import { SettingsPage } from '../settings/settings';
-import { OurlistPage } from '../ourlist/ourlist';
-
+@IonicPage()
 @Component({
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
 
-  tab1Root = OurmapPage;
-  tab2Root = OurlistPage;
-  tab3Root = EditmapPage;
-  tab4Root = SettingsPage;
+  tab1Root = "OurmapPage";
+  tab2Root = "OurlistPage";
+  tab3Root = "EditmapPage";
+  tab4Root = "SettingsPage";
 
   constructor() {
 
