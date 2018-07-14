@@ -1,0 +1,38 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>詳細</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-padding>
+  <ion-card-content>
+    <ion-card-title>
+      {{ourmap.title}}
+    </ion-card-title>
+    <p>
+      <small *ngIf="ourmap.infoDate">投稿日時:{{ ourmap.infoDate }}</small><br>
+      <small>投稿者:{{ ourmap.contributor }}</small><br>
+      <small *ngIf="ourmap.viewPeriodFrom || ourmap.viewPeriodTo">掲載期間：{{ ourmap.viewPeriodFrom | date:"shortDate" }}〜{{ ourmap.viewPeriodTo | date:"shortDate" }}</small>
+    </p>
+    
+    <!--
+    <ion-grid>
+      <ion-row>
+        <ion-col col-4 text-center *ngFor="let p of ourmapphotos; first as first; last as last; index as i;">
+          <ion-thumbnail text-left>
+            <img src="{{p.fullImage}}"/>
+          </ion-thumbnail>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    -->
+    
+    <ion-thumbnail text-left *ngFor="let p of ourmapphotos; first as first; last as last; index as i;">
+      <img src="{{p.fullImage}}"/>
+    </ion-thumbnail>
+    <div [innerHtml]="ourmap.description | multilineText"></div>
+  </ion-card-content>
+</ion-content>
