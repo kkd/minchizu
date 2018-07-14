@@ -41,16 +41,6 @@ export class EditmapPage {
     
     let batch = this.afs.firestore.batch();
 
-    // 位置情報
-    /*
-    for (let p of this.ompfs.photos){
-      if (p.latlon){
-        this.omfs.data.latlon = p.latlon;
-        break;
-      }
-    }
-    */
-    
     this.omfs.data.publicFlg = true;
     this.omfs.data.infoDate = firebase.firestore.FieldValue.serverTimestamp();
     this.omfs.setlatlon(Number(this.latitude), Number(this.longitude));

@@ -10,99 +10,89 @@
 <ion-content no-padding>
   
   <form #myForm="ngForm" (ngSubmit)="submit($event)">
-    <ion-list>
-      <ion-item-group>
-        <ion-item-divider color="light">位置情報付きの写真が3枚までアップできます</ion-item-divider>
-        <ion-grid>
-          <ion-row>
-            <ion-col col-4 text-center *ngFor="let file of ompfs.files; index as index;">
-              <ion-thumbnail text-left>
-                <img src="{{file}}">
-              </ion-thumbnail>
-            </ion-col>
-            <ion-col col-4 text-center *ngIf="ompfs.files.length<3">
-              <h1><ion-icon name="camera" (click)="openFileInput(ompfs.files.length)"></ion-icon></h1>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item-group>
-    </ion-list>
+    <ion-item-group>
+      <ion-item-divider color="light">位置情報付きの写真が3枚までアップできます</ion-item-divider>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-4 text-center *ngFor="let file of ompfs.files; index as index;">
+            <ion-thumbnail text-left>
+              <img src="{{file}}">
+            </ion-thumbnail>
+          </ion-col>
+          <ion-col col-4 text-center *ngIf="ompfs.files.length<3">
+            <h1><ion-icon name="camera" (click)="openFileInput(ompfs.files.length)"></ion-icon></h1>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item-group>
 
-    <ion-list>
-      <ion-item-group>
-        <ion-item-divider color="light">位置情報がない場合、こちらで設定も可能です<br>※地図に掲載するには位置情報が必要となります</ion-item-divider>
-        <ion-grid>
-          <!--
-          <ion-row>
-            <ion-col><button ion-button>現在地をセットする</button></ion-col>
-            <ion-col><button ion-button type="button" [navPush]="pushPage" [navParams]="params">地図からセットする</button></ion-col>
-          </ion-row>
-          -->
-          <ion-row>
-            <ion-item>
-              <ion-input type="number" placeholder="緯度" name="latitude"
-                [(ngModel)]="latitude"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input type="number" placeholder="経度" name="longitude"
-                [(ngModel)]="longitude"></ion-input>
-            </ion-item>
-          </ion-row>
-        </ion-grid>
-      </ion-item-group>
-    </ion-list>
+    <ion-item-group>
+      <ion-item-divider color="light">位置情報がない場合、こちらで設定も可能です<br>※地図に掲載するには位置情報が必要となります</ion-item-divider>
+      <ion-grid>
+        <!--
+        <ion-row>
+          <ion-col><button ion-button>現在地をセットする</button></ion-col>
+          <ion-col><button ion-button type="button" [navPush]="pushPage" [navParams]="params">地図からセットする</button></ion-col>
+        </ion-row>
+        -->
+        <ion-row>
+          <ion-item>
+            <ion-input type="number" placeholder="緯度" name="latitude"
+              [(ngModel)]="latitude"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="number" placeholder="経度" name="longitude"
+              [(ngModel)]="longitude"></ion-input>
+          </ion-item>
+        </ion-row>
+      </ion-grid>
+    </ion-item-group>
 
-    <ion-list>
-      <ion-item-group>
-        <ion-item-divider color="light">情報を入力ください</ion-item-divider>
-        <ion-item>
-          <ion-input type="text" placeholder="タイトル" name="title"
-            [(ngModel)]="omfs.data.title" #title="ngModel"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input type="text" placeholder="投稿者名" name="contributor"
-            [(ngModel)]="omfs.data.contributor" #contributor="ngModel"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-textarea placeholder="詳細情報" rows="5" name="description"
-            [(ngModel)]="omfs.data.description" #description="ngModel"></ion-textarea>
-        </ion-item>
-      </ion-item-group>
-    </ion-list>
+    <ion-item-group>
+      <ion-item-divider color="light">情報を入力ください</ion-item-divider>
+      <ion-item>
+        <ion-input type="text" placeholder="タイトル" name="title"
+          [(ngModel)]="omfs.data.title" #title="ngModel"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" placeholder="投稿者名" name="contributor"
+          [(ngModel)]="omfs.data.contributor" #contributor="ngModel"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-textarea placeholder="詳細情報" rows="5" name="description"
+          [(ngModel)]="omfs.data.description" #description="ngModel"></ion-textarea>
+      </ion-item>
+    </ion-item-group>
 
-    <ion-list>
-      <ion-item-group>
-        <ion-item-divider color="light">掲載期間がある場合は入力ください</ion-item-divider>
-        <ion-item>
-          <ion-label>掲載開始日</ion-label>
-          <ion-input type="date" placeholder="掲載開始日" name="viewPeriodFrom"
-            [(ngModel)]="omfs.data.viewPeriodFrom" #viewPeriodFrom="ngModel"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label>掲載終了日</ion-label>
-          <ion-input type="date" placeholder="掲載終了日" name="viewPeriodTo"
-            [(ngModel)]="omfs.data.viewPeriodTo" #viewPeriodTo="ngModel"></ion-input>
-        </ion-item>
-      </ion-item-group>
-    </ion-list>
+    <ion-item-group>
+      <ion-item-divider color="light">掲載期間がある場合は入力ください</ion-item-divider>
+      <ion-item>
+        <ion-label>掲載開始日</ion-label>
+        <ion-input type="date" placeholder="掲載開始日" name="viewPeriodFrom"
+          [(ngModel)]="omfs.data.viewPeriodFrom" #viewPeriodFrom="ngModel"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>掲載終了日</ion-label>
+        <ion-input type="date" placeholder="掲載終了日" name="viewPeriodTo"
+          [(ngModel)]="omfs.data.viewPeriodTo" #viewPeriodTo="ngModel"></ion-input>
+      </ion-item>
+    </ion-item-group>
 
-    <ion-list radio-group name="category"
+    <ion-item-group>
+      <ion-list radio-group name="category"
           [(ngModel)]="omfs.data.category" #category="ngModel">
-      <ion-item-group>
         <ion-item-divider color="light">どのような情報ですか？</ion-item-divider>
         <ion-list *ngFor="let c of CATEGORIES;">
           <ion-list-header>{{c.group}}</ion-list-header>
           <ion-item *ngFor="let a of c.array;">
-            <ion-label><ion-icon class="fa {{a.icon}}" item-left></ion-icon>{{a.name}}</ion-label>
+            <ion-label><img style="width:20px" src='../../../assets/mapmarker/{{a.icon}}.png'> {{a.name}}</ion-label>
             <ion-radio checked="false" value="{{a.value}}"></ion-radio>
           </ion-item>
         </ion-list>
-      </ion-item-group>
-    </ion-list>
+      </ion-list>
+    </ion-item-group>
   
-    <ion-list>
-      <button ion-button round block>投稿する</button>
-    </ion-list>
+    <button ion-button round block>投稿する</button>
 
     <input id="fileinput0" type="file" accept="image/*" hidden
       (change)="uploadFile($event, 0)">
