@@ -1,10 +1,11 @@
-import { Component, ViewChild  } from '@angular/core';
+import { Component, ViewChild, ElementRef, Renderer2, HostListener } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { AgmMap, LatLngBounds } from '@agm/core';
 declare var google: any;
 
 import { OurMapsFirestoreProvider, DS_OurMaps } from '../../providers/firestore/ourmaps';
+import { Storage } from '@ionic/storage';
 
 
 @IonicPage()
@@ -14,7 +15,7 @@ import { OurMapsFirestoreProvider, DS_OurMaps } from '../../providers/firestore/
 })
 export class OurmapPage {
 
-  defaultZoom: number = 22;
+  defaultZoom: number = 12;
   lat: number = 33.51946;
   lng: number = 132.544758;
   zoom: number = this.defaultZoom;
@@ -30,18 +31,55 @@ export class OurmapPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     private omfs: OurMapsFirestoreProvider,
+    private renderer2: Renderer2,
+    private el: ElementRef,
+    private storage: Storage,
   ) {
   }
 
   ionViewDidLoad(){
     
+    this.storage.get("map_lastposition")
+    .then(vals =>{
+      if (vals){
+        this.lat = vals["lat"];
+        this.lng = vals["lng"];
+        this.zoom = vals["zoom"];
+      }
+    })
+
     // Google Map APIを使用するための準備
     this.agmMap.mapReady.subscribe(gmaps => {
       this.gmaps = gmaps;
       this.displayMap();
     })
+
   }
   
+  // --------------------------------------------
+  // ブラウザ終了時
+  // --------------------------------------------
+  @HostListener('window:unload', [ '$event' ])
+  unloadHandler(event) {
+    this.registMapInfo();
+  }
+
+  // --------------------------------------------
+  // ページ移動前
+  // --------------------------------------------
+  @HostListener('window:beforeunload', [ '$event' ])
+  beforeUnloadHander(event) {
+    this.registMapInfo();
+  }
+
+  registMapInfo(){
+    this.storage.set("map_lastposition", {
+      lat: this.gmaps.center.lat(),
+      lng: this.gmaps.center.lng(),
+      zoom: this.gmaps.zoom,
+    });
+  }
+
   // --------------------------------------------
   // 地図情報を表示する
   // --------------------------------------------
@@ -85,9 +123,81 @@ export class OurmapPage {
         }
       })
       // 中心点の調整
-      this.gmaps.fitBounds(bounds);
+      //this.gmaps.fitBounds(bounds);
+  
+      let myMarker = new google.maps.Marker({
+        map: this.gmaps,
+        animation: google.maps.Animation.DROP,
+        icon: "../../../assets/mapmarker/skyblue.png",
+      });
+
+      this.addYourLocationButton(this.gmaps, myMarker);
+      this.el.nativeElement.querySelector("#locationButton").click();
+      
     })
 
+  }
+
+  private addYourLocationButton(map, marker) {
+
+    const controlDiv = this.renderer2.createElement('div');
+    const firstChild = this.renderer2.createElement('button');
+
+    this.renderer2.setStyle(firstChild, 'backgroundColor',    '#fff');
+    this.renderer2.setStyle(firstChild, 'border',             'none');
+    this.renderer2.setStyle(firstChild, 'outline',            '#none');
+    this.renderer2.setStyle(firstChild, 'width',              '28px');
+    this.renderer2.setStyle(firstChild, 'height',             '28px');
+    this.renderer2.setStyle(firstChild, 'borderRadius',       '2px');
+    this.renderer2.setStyle(firstChild, 'boxShadow',          '0 1px 4px rgba(0,0,0,0.3)');
+    this.renderer2.setStyle(firstChild, 'cursor',             'pointer');
+    this.renderer2.setStyle(firstChild, 'marginRight',        '10px');
+    this.renderer2.setStyle(firstChild, 'padding',            '0px');
+    firstChild.id = "locationButton";
+    firstChild.title = "現在地";
+    
+    const secondChild = this.renderer2.createElement('div');
+    this.renderer2.setStyle(secondChild, 'margin',            '5px');
+    this.renderer2.setStyle(secondChild, 'width',             '18px');
+    this.renderer2.setStyle(secondChild, 'height',            '18px');
+    this.renderer2.setStyle(secondChild, 'backgroundImage',   'url(../../../assets/gmaps/mylocation-sprite-1x.png)');
+    this.renderer2.setStyle(secondChild, 'backgroundSize',    '180px 18px');
+    this.renderer2.setStyle(secondChild, 'backgroundPosition','0px 0px');
+    this.renderer2.setStyle(secondChild, 'backgroundRepeat',  'no-repeat');
+    secondChild.id = "location_img";
+    this.renderer2.addClass(secondChild, 'secondchild');
+
+    firstChild.appendChild(secondChild);
+    controlDiv.appendChild(firstChild);
+    
+    google.maps.event.addListener(map, 'dragend', () => {
+      this.renderer2.setStyle(secondChild, 'backgroundPosition','0px 0px');
+    });
+    
+    firstChild.addEventListener('click', function() {
+      let imgX = '0';
+      let animationInterval = setInterval(() => {
+        if(imgX == '-18') imgX = '0';
+        else imgX = '-18';
+        this.renderer2.setStyle(secondChild, 'backgroundPosition',imgX+'px 0px');
+      }, 500);
+
+      if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+          marker.setPosition(latlng);
+          map.setCenter(latlng);
+          clearInterval(animationInterval);
+          this.renderer2.setStyle(secondChild, 'backgroundPosition','-144px 0px');
+        });
+      }else{
+        clearInterval(animationInterval);
+        this.renderer2.setStyle(secondChild, 'backgroundPosition','0px 0px');
+      }
+    });
+
+    //controlDiv.index = 1;
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
   }
 
 }
