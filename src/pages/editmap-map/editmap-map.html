@@ -1,0 +1,34 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>位置情報を地図で指定する</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="closeThis($event)">
+        <ion-icon name="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <agm-map #AgmMap
+    [latitude]="lat"
+    [longitude]="lng"
+    [zoom]="zoom"
+    [disableDefaultUI]="false"
+    (mapClick)="mapClicked($event)">
+  
+    <agm-marker *ngIf="marker"
+      (markerClick)="clickedMarker(marker.label, i)"
+      [latitude]="marker.lat"
+      [longitude]="marker.lng"
+      [label]="marker.label"
+      [markerDraggable]="marker.draggable"
+      (dragEnd)="markerDragEnd(marker, $event)">
+    </agm-marker>
+    
+  </agm-map>
+  <button *ngIf="marker" ion-button round block (click)="submit($event)">マーカーの位置情報をセットする</button>
+  <button *ngIf="!marker" ion-button round block disabled>マーカーの位置情報をセットする</button>
+</ion-content>

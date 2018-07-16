@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
@@ -25,6 +25,7 @@ export class EditmapPage {
     private storage: Storage,
     private el: ElementRef,
     private alertCtrl: AlertController,
+    public modalCtrl: ModalController,
     private afs: AngularFirestore,
     private omfs: OurMapsFirestoreProvider,
     private ompfs: OurMapPhotosFirestoreProvider,
@@ -143,6 +144,28 @@ export class EditmapPage {
     alert.present();
   }
  
-
+  // --------------------------------------------
+  // 地図で位置情報を作成する為の画面を起動
+  // --------------------------------------------
+  modalGMaps(event){
+    const modal = this.modalCtrl.create("EditmapMapPage");
+    modal.onDidDismiss(data => {
+      this.latitude = data.lat;
+      this.longitude = data.lng;
+    });
+    modal.present();
+  }
+  
+  // --------------------------------------------
+  // 現在地の位置情報をセットする
+  // --------------------------------------------
+  setLatlonHere(event){
+    this.latitude = null;
+    this.longitude = null;
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.latitude = position.coords.latitude;
+      this.longitude = position.coords.longitude;
+    });
+  }
   
 }
