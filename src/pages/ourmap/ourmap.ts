@@ -91,6 +91,7 @@ export class OurmapPage {
     // 表示対象データ
     this.omfs.getAllPublicData()
     .subscribe(vals => {
+      this.ourmaps = [];
       vals.map(val => {
         // 位置情報が設定されているデータのみ
         if (val.latlon){

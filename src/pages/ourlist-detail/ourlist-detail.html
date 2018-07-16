@@ -8,7 +8,7 @@
 
 
 <ion-content no-padding>
-  <ion-card-content>
+  <ion-card-content [ngStyle]="styles">
     <ion-card-title>
       <ion-row>
         <ion-col col-1>
@@ -19,6 +19,14 @@
         </ion-col>
       </ion-row>
     </ion-card-title>
+    
+    <button *ngIf="!ourmap.oldFlg" ion-button small round outline (click)="confirmThisDataIsOld($event)">
+      情報が古い事を知らせたい場合はクリック
+    </button>
+    <button *ngIf="ourmap.oldFlg" ion-button small round outline color="dark" disabled>
+      この情報はすでに古いとの情報が入っています
+    </button>
+
     <p>
       <small *ngIf="ourmap.infoDate">投稿日時:{{ ourmap.infoDate }}</small><br>
       <small>投稿者:{{ ourmap.contributor }}</small><br>

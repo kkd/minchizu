@@ -25,6 +25,7 @@ export class OurlistPage {
     
     this.omfs.getAllPublicData()
     .subscribe(vals => {
+      this.ourmaps = [];
       vals.map(val => {
         val.infoDate = val.infoDate.toDate();
         this.ourmaps.push(val);

@@ -27,6 +27,7 @@
     >
       
       <agm-info-window>
+        <strong *ngIf="m.oldFlg"><font color="#f53d3d">※この情報はすでに古いとの情報が入っています</font></strong>
         <p>
           <small>投稿日時:{{ m.infoDate | date:'short' }}</small><br>
           <small>投稿者:{{ m.contributor }}</small>

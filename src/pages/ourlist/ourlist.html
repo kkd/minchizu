@@ -10,21 +10,39 @@
 <ion-content no-padding>
   
   <ion-list>
-    <button ion-item *ngFor="let m of ourmaps; index as index" [navPush]="'OurlistDetailPage'" [navParams]="{ourmap:m, pkey:m.pkey}">
-      <ion-row>
-        <ion-col col-1>
-          <img src="../../../assets/mapmarker/{{m.category}}.png"/>
-        </ion-col>
-        <ion-col>
-          <h2>{{ m.title }}</h2>
-          <p>
-            <small *ngIf="m.infoDate">投稿日時:{{ m.infoDate | date:'short' }}</small><br>
-            <small>投稿者:{{ m.contributor }}</small><br>
-            <small *ngIf="m.viewPeriodFrom || m.viewPeriodTo">掲載期間：{{ m.viewPeriodFrom | date:"shortDate" }}〜{{ m.viewPeriodTo | date:"shortDate" }}</small>
-          </p>
-        </ion-col>
-      </ion-row>
+    <div *ngFor="let m of ourmaps; index as index;">
+      <button *ngIf="m.oldFlg" color="light" ion-item [navPush]="'OurlistDetailPage'" [navParams]="{ourmap:m, pkey:m.pkey}">
+        <ion-row>
+          <ion-col col-1>
+            <img src="../../../assets/mapmarker/{{m.category}}.png"/>
+          </ion-col>
+          <ion-col>
+            <h2>{{ m.title }}</h2>
+            <p>
+              <small *ngIf="m.infoDate">投稿日時:{{ m.infoDate | date:'short' }}</small><br>
+              <small>投稿者:{{ m.contributor }}</small><br>
+              <small *ngIf="m.viewPeriodFrom || m.viewPeriodTo">掲載期間：{{ m.viewPeriodFrom | date:"shortDate" }}〜{{ m.viewPeriodTo | date:"shortDate" }}</small>
+            </p>
+          </ion-col>
+        </ion-row>
       </button>
+
+      <button *ngIf="!m.oldFlg" ion-item [navPush]="'OurlistDetailPage'" [navParams]="{ourmap:m, pkey:m.pkey}">
+        <ion-row>
+          <ion-col col-1>
+            <img src="../../../assets/mapmarker/{{m.category}}.png"/>
+          </ion-col>
+          <ion-col>
+            <h2>{{ m.title }}</h2>
+            <p>
+              <small *ngIf="m.infoDate">投稿日時:{{ m.infoDate | date:'short' }}</small><br>
+              <small>投稿者:{{ m.contributor }}</small><br>
+              <small *ngIf="m.viewPeriodFrom || m.viewPeriodTo">掲載期間：{{ m.viewPeriodFrom | date:"shortDate" }}〜{{ m.viewPeriodTo | date:"shortDate" }}</small>
+            </p>
+          </ion-col>
+        </ion-row>
+      </button>
+    </div>
   </ion-list>
   
   <!--
