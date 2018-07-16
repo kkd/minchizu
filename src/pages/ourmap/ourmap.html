@@ -33,6 +33,7 @@
           <small>投稿者:{{ m.contributor }}</small>
         </p>
         <p>{{ m.title }}</p>
+        <p><a href="http://maps.apple.com/?q={{m.latlon.latitude}},{{m.latlon.longitude}}">Googleマップで見る</a></p>
         <div [innerHtml]="m.description | multilineText"></div>
       </agm-info-window>
 
