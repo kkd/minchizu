@@ -10,6 +10,14 @@
 
 - 現時点では、機能限定的となっています。ブラッシュアップにご協力いただけると幸いです
 
+# 各種URL
+- みんなの地図アプリ
+    - https://minchizu-e6818.firebaseapp.com/
+- みんなの地図LP
+    - https://daichancorgi.github.io/minchizu-lp/
+- Twitter
+    - https://twitter.com/minnanochizu
+
 # ライセンスについて
 
 災害時に活用いただく場合のみ、フリーとさせていただきます。
