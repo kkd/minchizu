@@ -40,6 +40,7 @@ export class DS_OurMaps extends DSBase {
   pref: string = ""                         // 県情報
   latlon: any = null;                       // 緯度経度
   publicFlg: boolean = false;               // 公開フラグ
+  oldFlg: boolean = false;                  // 情報が古くなった
   viewPeriodFrom: string = null;            // 掲載期間（from）
   viewPeriodTo: string = null;              // 掲載期間（To）
 }
