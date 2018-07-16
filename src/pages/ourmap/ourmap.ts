@@ -117,7 +117,7 @@ export class OurmapPage {
           }
           */
 
-          val.infoDate = val.infoDate.toDate();
+          if (val.infoDate) val.infoDate = val.infoDate.toDate();
 
           this.ourmaps.push(val);
           bounds.extend(new google.maps.LatLng(val.latlon.latitude, val.latlon.longitude));

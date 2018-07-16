@@ -150,8 +150,10 @@ export class EditmapPage {
   modalGMaps(event){
     const modal = this.modalCtrl.create("EditmapMapPage");
     modal.onDidDismiss(data => {
-      this.latitude = data.lat;
-      this.longitude = data.lng;
+      if (data){
+        this.latitude = data.lat;
+        this.longitude = data.lng;
+      }
     });
     modal.present();
   }
