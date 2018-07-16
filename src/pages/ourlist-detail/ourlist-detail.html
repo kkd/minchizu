@@ -28,6 +28,7 @@
     </button>
 
     <p>
+      <small *ngIf="ourmap.latlon"><a href="http://maps.apple.com/?q={{ourmap.latlon.latitude}},{{ourmap.latlon.longitude}}">Googleマップで場所を確認する</a></small><br>
       <small *ngIf="ourmap.infoDate">投稿日時:{{ ourmap.infoDate }}</small><br>
       <small>投稿者:{{ ourmap.contributor }}</small><br>
       <small *ngIf="ourmap.viewPeriodFrom || ourmap.viewPeriodTo">掲載期間：{{ ourmap.viewPeriodFrom | date:"shortDate" }}〜{{ ourmap.viewPeriodTo | date:"shortDate" }}</small>

@@ -28,6 +28,13 @@
 
     <ion-item-group>
       <ion-item-divider color="light">位置情報がない場合、こちらで設定も可能です<br>※地図に掲載するには位置情報が必要となります</ion-item-divider>
+      <ion-list>
+        <ion-item>
+          <button type="button" ion-button outline small (click)="setLatlonHere($event)">現在地を指定</button>
+          <button type="button" ion-button outline small (click)="modalGMaps($event)">地図を起動して表示位置を指定</button>
+        </ion-item>
+        
+      </ion-list>
       <ion-grid>
         <!--
         <ion-row>
