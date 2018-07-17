@@ -51,6 +51,15 @@ export class OurmapPage {
     // Google Map APIを使用するための準備
     this.agmMap.mapReady.subscribe(gmaps => {
       this.gmaps = gmaps;
+      let myMarker = new google.maps.Marker({
+        map: this.gmaps,
+        animation: google.maps.Animation.DROP,
+        icon: "../../../assets/mapmarker/skyblue.png",
+      });
+
+      this.addYourLocationButton(this.gmaps, myMarker);
+      //this.el.nativeElement.querySelector("#locationButton").click();
+      
       this.displayMap();
     })
 
@@ -126,15 +135,6 @@ export class OurmapPage {
       // 中心点の調整
       //this.gmaps.fitBounds(bounds);
   
-      let myMarker = new google.maps.Marker({
-        map: this.gmaps,
-        animation: google.maps.Animation.DROP,
-        icon: "../../../assets/mapmarker/skyblue.png",
-      });
-
-      this.addYourLocationButton(this.gmaps, myMarker);
-      this.el.nativeElement.querySelector("#locationButton").click();
-      
     })
 
   }
