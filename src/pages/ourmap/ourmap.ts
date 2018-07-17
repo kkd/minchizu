@@ -25,6 +25,8 @@ export class OurmapPage {
   //ourmaps: Observable<DS_OurMaps[]>;
   ourmaps: DS_OurMaps[];
   
+  mapPosInterval: any = null;
+  
   @ViewChild('AgmMap') agmMap: AgmMap;
 
   constructor(
@@ -51,26 +53,50 @@ export class OurmapPage {
     // Google Map APIを使用するための準備
     this.agmMap.mapReady.subscribe(gmaps => {
       this.gmaps = gmaps;
+      let myMarker = new google.maps.Marker({
+        map: this.gmaps,
+        animation: google.maps.Animation.DROP,
+        icon: "../../../assets/mapmarker/skyblue.png",
+      });
+
+      this.addYourLocationButton(this.gmaps, myMarker);
+      //this.el.nativeElement.querySelector("#locationButton").click();
+      
       this.displayMap();
+      
     })
 
+  }
+  
+  ionViewDidEnter(){
+    this.mapPosInterval = setInterval(() =>{
+      this.registMapInfo();
+    }, 1000)
+  }
+  
+  ionViewWillLeave(){
+    clearInterval(this.mapPosInterval);
   }
   
   // --------------------------------------------
   // ブラウザ終了時
   // --------------------------------------------
+  /*
   @HostListener('window:unload', [ '$event' ])
   unloadHandler(event) {
     this.registMapInfo();
   }
+  */
 
   // --------------------------------------------
   // ページ移動前
   // --------------------------------------------
+  /*
   @HostListener('window:beforeunload', [ '$event' ])
   beforeUnloadHander(event) {
     this.registMapInfo();
   }
+  */
 
   registMapInfo(){
     this.storage.set("map_lastposition", {
@@ -126,15 +152,6 @@ export class OurmapPage {
       // 中心点の調整
       //this.gmaps.fitBounds(bounds);
   
-      let myMarker = new google.maps.Marker({
-        map: this.gmaps,
-        animation: google.maps.Animation.DROP,
-        icon: "../../../assets/mapmarker/skyblue.png",
-      });
-
-      this.addYourLocationButton(this.gmaps, myMarker);
-      this.el.nativeElement.querySelector("#locationButton").click();
-      
     })
 
   }

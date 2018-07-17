@@ -22,12 +22,16 @@ export class OurlistPage {
   }
 
   ionViewDidLoad() {
-    
+    this.displayMap();
+  }
+  
+  displayMap() {
+    this.ourmaps = [];
     this.omfs.getAllPublicData()
     .subscribe(vals => {
       this.ourmaps = [];
       vals.map(val => {
-        val.infoDate = val.infoDate.toDate();
+        if (val.infoDate) val.infoDate = val.infoDate.toDate();
         this.ourmaps.push(val);
         /*
         // 写真データを取得
@@ -39,5 +43,6 @@ export class OurlistPage {
         */
       })
     })
+    
   }
 }

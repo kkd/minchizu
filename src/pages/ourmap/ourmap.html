@@ -1,8 +1,11 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>みんなの地図 - 復旧/西日本豪雨</ion-title>
+    <ion-title>みんなの地図for復興支援</ion-title>
     <ion-buttons end>
+      <button ion-button icon-only (click)="displayMap()">
+        <ion-icon name="sync"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="openModal()" disabled>
         <ion-icon name="search"></ion-icon>
       </button>
