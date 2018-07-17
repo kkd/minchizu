@@ -70,13 +70,11 @@ export class OurmapPage {
   
   ionViewDidEnter(){
     this.mapPosInterval = setInterval(() =>{
-      console.log("--- set")
       this.registMapInfo();
     }, 1000)
   }
   
   ionViewWillLeave(){
-    console.log("--- ionViewWillLeave")
     clearInterval(this.mapPosInterval);
   }
   
