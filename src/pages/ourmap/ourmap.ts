@@ -25,6 +25,8 @@ export class OurmapPage {
   //ourmaps: Observable<DS_OurMaps[]>;
   ourmaps: DS_OurMaps[];
   
+  mapPosInterval: any = null;
+  
   @ViewChild('AgmMap') agmMap: AgmMap;
 
   constructor(
@@ -61,25 +63,42 @@ export class OurmapPage {
       //this.el.nativeElement.querySelector("#locationButton").click();
       
       this.displayMap();
+      
     })
 
+  }
+  
+  ionViewDidEnter(){
+    this.mapPosInterval = setInterval(() =>{
+      console.log("--- set")
+      this.registMapInfo();
+    }, 1000)
+  }
+  
+  ionViewWillLeave(){
+    console.log("--- ionViewWillLeave")
+    clearInterval(this.mapPosInterval);
   }
   
   // --------------------------------------------
   // ブラウザ終了時
   // --------------------------------------------
+  /*
   @HostListener('window:unload', [ '$event' ])
   unloadHandler(event) {
     this.registMapInfo();
   }
+  */
 
   // --------------------------------------------
   // ページ移動前
   // --------------------------------------------
+  /*
   @HostListener('window:beforeunload', [ '$event' ])
   beforeUnloadHander(event) {
     this.registMapInfo();
   }
+  */
 
   registMapInfo(){
     this.storage.set("map_lastposition", {
