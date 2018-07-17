@@ -7,7 +7,7 @@ import * as anchorify from "anchorify";
 export class MultilineTextPipe implements PipeTransform {
   transform(str: string) {
     let replaced = anchorify(str);
-    let replaced = replaced.replace(/(\r\n|\r|\n)/g, '<br/>');
+    replaced = replaced.replace(/(\r\n|\r|\n)/g, '<br/>');
     return replaced;
   }
 
