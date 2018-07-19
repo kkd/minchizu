@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "minchizu-e6818"
+    "default": "minchizu-e6818",
+    "dev": "minchizu-dev"
   }
 }
