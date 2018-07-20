@@ -1,5 +1,5 @@
-import { Component, ViewChild, ElementRef, Renderer2, HostListener } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild, Renderer2 } from '@angular/core';
+import { IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
 
 import { AgmMap, LatLngBounds } from '@agm/core';
 declare var google: any;
@@ -34,8 +34,9 @@ export class OurmapPage {
     public navParams: NavParams,
     private omfs: OurMapsFirestoreProvider,
     private renderer2: Renderer2,
-    private el: ElementRef,
+    //private el: ElementRef,
     private storage: Storage,
+    public popoverCtrl: PopoverController,
   ) {
   }
 
@@ -114,46 +115,62 @@ export class OurmapPage {
     this.ourmaps = [];
     const bounds: LatLngBounds = new google.maps.LatLngBounds();
     
-    // 表示対象データ
-    this.omfs.getAllPublicData()
-    .subscribe(vals => {
-      this.ourmaps = [];
-      vals.map(val => {
-        // 位置情報が設定されているデータのみ
-        if (val.latlon){
-          let category = this.omfs.getMarkerInfo(val.category);
-
-          if (category){
-            if (category["icon"]){
-              val["iconUrl"] = {
-                                  url: '../../../assets/mapmarker/' + category["icon"] + '.png',
-                                  scaledSize: {width: 20, height: 20}
-                              }
-            }
-          }
-          /*
-          if (val.marker != ""){
-            val["labeloption"] = {
-                                  color: 'white',
-                                  fontFamily: 'Fontawesome',
-                                  text: val.marker,
-                                }
-          }else{
-            val["labeloption"] = {};
-          }
-          */
-
-          if (val.infoDate) val.infoDate = val.infoDate.toDate();
-
-          this.ourmaps.push(val);
-          bounds.extend(new google.maps.LatLng(val.latlon.latitude, val.latlon.longitude));
+    this.storage.get("searchsettings")
+    .then(searchsettings => {
+      
+      let getdata: any = null;
+      
+      if (searchsettings){
+        if (searchsettings.isOldDataDisplay){
+          getdata = this.omfs.getAllPublicData(true);
+        }else{
+          getdata = this.omfs.getAllPublicData(false);
         }
-      })
-      // 中心点の調整
-      //this.gmaps.fitBounds(bounds);
-  
-    })
+        
+      }else{
+        getdata = this.omfs.getAllPublicData(false);
+      }
 
+      // 表示対象データ
+      getdata.subscribe(vals => {
+        this.ourmaps = [];
+        vals.map(val => {
+          // 位置情報が設定されているデータのみ
+          if (val.latlon){
+            let category = this.omfs.getMarkerInfo(val.category);
+  
+            if (category){
+              if (category["icon"]){
+                val["iconUrl"] = {
+                                    url: '../../../assets/mapmarker/' + category["icon"] + '.png',
+                                    scaledSize: {width: 20, height: 20}
+                                }
+              }
+            }
+            /*
+            if (val.marker != ""){
+              val["labeloption"] = {
+                                    color: 'white',
+                                    fontFamily: 'Fontawesome',
+                                    text: val.marker,
+                                  }
+            }else{
+              val["labeloption"] = {};
+            }
+            */
+  
+            if (val.infoDate) val.infoDate = val.infoDate.toDate();
+  
+            this.ourmaps.push(val);
+            bounds.extend(new google.maps.LatLng(val.latlon.latitude, val.latlon.longitude));
+          }
+        })
+        // 中心点の調整
+        //this.gmaps.fitBounds(bounds);
+    
+      })
+
+    })
   }
 
   private addYourLocationButton(map, marker) {
@@ -218,4 +235,19 @@ export class OurmapPage {
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
   }
 
+  // --------------------------------------------
+  // 検索画面を表示する
+  // --------------------------------------------
+  searchPopOver(myEvent) {
+    let popover = this.popoverCtrl.create("SearchPage");
+    popover.onDidDismiss(data =>{
+      if (data){
+        this.displayMap();
+      }
+    })
+    
+    popover.present({
+      ev: myEvent
+    });
+  }
 }
