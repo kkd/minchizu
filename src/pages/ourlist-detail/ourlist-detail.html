@@ -29,9 +29,9 @@
 
     <p>
       <small *ngIf="ourmap.latlon"><a href="http://maps.apple.com/?q={{ourmap.latlon.latitude}},{{ourmap.latlon.longitude}}">Googleマップで場所を確認する</a></small><br>
-      <small *ngIf="ourmap.infoDate">投稿日時:{{ ourmap.infoDate }}</small><br>
+      <small *ngIf="ourmap.infoDate">投稿日時:{{ ourmap.infoDate | date:'short' }}</small><br>
       <small>投稿者:{{ ourmap.contributor }}</small><br>
-      <small *ngIf="ourmap.viewPeriodFrom || ourmap.viewPeriodTo">掲載期間：{{ ourmap.viewPeriodFrom | date:"shortDate" }}〜{{ ourmap.viewPeriodTo | date:"shortDate" }}</small>
+      <small *ngIf="ourmap.viewPeriodFrom || ourmap.viewPeriodTo">掲載期間:{{ ourmap.viewPeriodFrom | date:"shortDate" }}〜{{ ourmap.viewPeriodTo | date:"shortDate" }}</small>
     </p>
     
     <!--
@@ -46,8 +46,9 @@
     </ion-grid>
     -->
     
-    <ion-thumbnail text-left *ngFor="let p of ourmapphotos; first as first; last as last; index as i;">
+    <ion-thumbnail text-left style="position:relative;" *ngFor="let p of ourmapphotos; first as first; last as last; index as i;">
       <img src="{{p.fullImage}}"/>
+      <p class="thumbnail_overlay" *ngIf="p.originDateTime">撮影日時:{{p.originDateTime | date:"short" }}</p>
     </ion-thumbnail>
     <div [innerHtml]="ourmap.description | multilineText"></div>
   </ion-card-content>

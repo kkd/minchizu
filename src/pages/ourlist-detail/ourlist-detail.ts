@@ -37,7 +37,11 @@ export class OurlistDetailPage {
     // 写真データを取得
     this.ompfs.parentDocPath = this.omfs.docPath(this.ourmap.pkey);
     this.ompfs.getAllData().subscribe(vals => {
-      this.ourmapphotos = vals;
+      vals.map(val => {
+        if (val.originDateTime) val.originDateTime = val.originDateTime.toDate();
+        this.ourmapphotos.push(val);
+      })
+      
     })
   }
   
