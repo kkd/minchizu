@@ -27,7 +27,7 @@ export class OurlistPage {
   
   displayMap() {
     this.ourmaps = [];
-    this.omfs.getAllPublicData()
+    this.omfs.getAllPublicData(false)
     .subscribe(vals => {
       this.ourmaps = [];
       vals.map(val => {

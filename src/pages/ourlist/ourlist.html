@@ -1,10 +1,13 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>みんなの一覧 ※クリックで詳細表示</ion-title>
+    <ion-title>みんなの一覧 <small>※クリックで詳細表示</small></ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="displayMap()">
         <ion-icon name="sync"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="searchPopOver($event)">
+        <ion-icon name="search"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -26,7 +29,7 @@
             <p>
               <small *ngIf="m.infoDate">投稿日時:{{ m.infoDate | date:'short' }}</small><br>
               <small>投稿者:{{ m.contributor }}</small><br>
-              <small *ngIf="m.viewPeriodFrom || m.viewPeriodTo">掲載期間：{{ m.viewPeriodFrom | date:"shortDate" }}〜{{ m.viewPeriodTo | date:"shortDate" }}</small>
+              <small *ngIf="m.viewPeriodFrom || m.viewPeriodTo">掲載期間:{{ m.viewPeriodFrom | date:"shortDate" }}〜{{ m.viewPeriodTo | date:"shortDate" }}</small>
             </p>
           </ion-col>
         </ion-row>
@@ -42,7 +45,7 @@
             <p>
               <small *ngIf="m.infoDate">投稿日時:{{ m.infoDate | date:'short' }}</small><br>
               <small>投稿者:{{ m.contributor }}</small><br>
-              <small *ngIf="m.viewPeriodFrom || m.viewPeriodTo">掲載期間：{{ m.viewPeriodFrom | date:"shortDate" }}〜{{ m.viewPeriodTo | date:"shortDate" }}</small>
+              <small *ngIf="m.viewPeriodFrom || m.viewPeriodTo">掲載期間:{{ m.viewPeriodFrom | date:"shortDate" }}〜{{ m.viewPeriodTo | date:"shortDate" }}</small>
             </p>
           </ion-col>
         </ion-row>

@@ -76,16 +76,30 @@ export class OurMapsFirestoreProvider extends FirestoreBase{
     }
   }
 
-  public getAllPublicData(): Observable<DS_OurMaps[]>{
-    return this.afs.collection<any>(
-      this.collectionPath,
-      ref =>
-        ref
-        .where("publicFlg", "==", true)
-        .orderBy("infoDate", "desc")
-      ).valueChanges();
+  public getAllPublicData(allFlg: boolean): Observable<DS_OurMaps[]>{
+    if (allFlg){
+      // 古い情報も全て表示する場合
+      return this.afs.collection<any>(
+        this.collectionPath,
+        ref =>
+          ref
+          .where("publicFlg", "==", true)
+          .orderBy("infoDate", "desc")
+        ).valueChanges();
+
+    }else{
+      
+      return this.afs.collection<any>(
+        this.collectionPath,
+        ref =>
+          ref
+          .where("publicFlg", "==", true)
+          .where("oldFlg", "==", false)
+          .orderBy("infoDate", "desc")
+        ).valueChanges();
+    }
   }
-  
+
   public getMarkerInfo(marker: string):{} | null{
     
     for (let group of CATEGORIES){
