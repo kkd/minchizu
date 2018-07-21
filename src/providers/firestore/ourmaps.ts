@@ -43,6 +43,12 @@ export class DS_OurMaps extends DSBase {
   oldFlg: boolean = false;                  // 情報が古くなった
   viewPeriodFrom: string = null;            // 掲載期間（from）
   viewPeriodTo: string = null;              // 掲載期間（To）
+  administrative_area_level_1: string = ""; // 都道府県
+  locality: string = "";                    // 市町村
+  sublocality_level_2: string = "";         //
+  sublocality_level_3: string = "";         //
+  sublocality_level_4: string = "";         //
+  sublocality_level_5: string = "";         //
 }
 
 @Injectable()

@@ -7,6 +7,17 @@ import * as firebase from 'firebase/app';
 import { OurMapsFirestoreProvider, CATEGORIES } from '../../providers/firestore/ourmaps';
 import { OurMapPhotosFirestoreProvider } from '../../providers/firestore/ourmapphotos';
 
+import { GmapsProvider } from '../../providers/gmaps/gmaps';
+
+const typenames: string[] = [
+  "administrative_area_level_1",
+  "locality",
+  "sublocality_level_2",
+  "sublocality_level_3",
+  "sublocality_level_4",
+  "sublocality_level_5",
+]
+
 @IonicPage()
 @Component({
   selector: 'page-editmap',
@@ -18,7 +29,7 @@ export class EditmapPage {
 
   latitude: number = null;
   longitude: number = null;
-
+  
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -29,10 +40,12 @@ export class EditmapPage {
     private afs: AngularFirestore,
     private omfs: OurMapsFirestoreProvider,
     private ompfs: OurMapPhotosFirestoreProvider,
+    private gmaps: GmapsProvider,
   ) {
   }
 
   ionViewDidLoad() {
+
   }
 
   // --------------------------------------------
@@ -44,11 +57,7 @@ export class EditmapPage {
 
     this.omfs.data.publicFlg = true;
     this.omfs.data.infoDate = firebase.firestore.FieldValue.serverTimestamp();
-    
-    if (this.latitude && this.longitude){
-      this.omfs.setlatlon(Number(this.latitude), Number(this.longitude));
-    }
-    
+    // カテゴリー
     if (this.omfs.data.category){
       for (let a of CATEGORIES){
         for (let c of a["array"]){
@@ -60,29 +69,52 @@ export class EditmapPage {
       }
     }
     
-    let omref = this.omfs.batchset(batch);
-
-    // 投稿内容をIndexedDBに保存しておく
-    this.storage.get("myposts")
-    .then(posts => {
-      if (!posts) posts = [];
-      posts.push(omref.path);
-      this.storage.set("myposts", posts);
-    })
-
-    this.ompfs.parentDocPath = omref.path;
-    this.ompfs.allbatchset(batch)
-    .then(val => {
-      return this.ompfs.allbatchset_URL(batch, val);
-    }).then(() => {
-      // コミット
-      batch.commit();
+    new Promise((resolve, reject) => {
+      // 位置情報
+      if (this.latitude && this.longitude){
+        this.omfs.setlatlon(Number(this.latitude), Number(this.longitude));
+        
+        // リバースジオコーディング 
+        this.gmaps.reverseGeocoding(this.latitude, this.longitude)
+        .then(vals => {
+          vals[0]["address_components"].map(address_info => {
+            typenames.map(typename => {
+              if (address_info.types.indexOf(typename) > -1) this.omfs.data[typename] = address_info.long_name;
+            })
+          })
+          
+          resolve();
+        })
+      }else{
+        resolve();
+      }
+    }).then(() =>{
       
-      // 投稿完了メッセージ
-      this.afterPostMessage();
-    }).catch(error => {
-      console.log(error)
+      let omref = this.omfs.batchset(batch);
+
+      // 投稿内容をIndexedDBに保存しておく
+      this.storage.get("myposts")
+      .then(posts => {
+        if (!posts) posts = [];
+        posts.push(omref.path);
+        this.storage.set("myposts", posts);
+      })
+  
+      this.ompfs.parentDocPath = omref.path;
+      this.ompfs.allbatchset(batch)
+      .then(val => {
+        return this.ompfs.allbatchset_URL(batch, val);
+      }).then(() => {
+        // コミット
+        batch.commit();
+        
+        // 投稿完了メッセージ
+        this.afterPostMessage();
+      }).catch(error => {
+        console.log(error)
+      })
     })
+    
 
     //this.navCtrl.pop();
   }

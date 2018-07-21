@@ -30,6 +30,7 @@ import { FireauthProvider } from '../providers/fireauth/fireauth';
 // 日本語ロケール
 import { registerLocaleData } from '@angular/common';
 import localeJa from '@angular/common/locales/ja';
+import { GmapsProvider } from '../providers/gmaps/gmaps';
 registerLocaleData(localeJa);
 
 @NgModule({
@@ -64,7 +65,8 @@ registerLocaleData(localeJa);
     OurMapsFirestoreProvider,
     OurMapPhotosFirestoreProvider,
     PhotoProvider,
-    FireauthProvider
+    FireauthProvider,
+    GmapsProvider
   ]
 })
 export class AppModule {}
