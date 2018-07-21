@@ -51,7 +51,7 @@ export class OurlistDetailPage {
   confirmThisDataIsOld(event){
     let alert = this.alertCtrl.create({
       title: "実行しますか？",
-      message: "情報提供ありがとうございます。<br>実行後、古い事が分かるよう表示されるようになります（背景色がグレーになるなど）。",
+      message: "情報提供ありがとうございます。<br>実行後は地図、一覧から非表示となります。<br>※検索条件で古い記事も表示するとしている場合は、古い事が分かるよう表示されるようになります（背景色がグレーになるなど）。",
       buttons: [
         {
             text: "キャンセル",
