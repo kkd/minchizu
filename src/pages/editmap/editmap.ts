@@ -4,19 +4,10 @@ import { Storage } from '@ionic/storage';
 import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
 
-import { OurMapsFirestoreProvider, CATEGORIES } from '../../providers/firestore/ourmaps';
+import { OurMapsFirestoreProvider, CATEGORIES, TYPENAMES } from '../../providers/firestore/ourmaps';
 import { OurMapPhotosFirestoreProvider } from '../../providers/firestore/ourmapphotos';
 
 import { GmapsProvider } from '../../providers/gmaps/gmaps';
-
-const typenames: string[] = [
-  "administrative_area_level_1",
-  "locality",
-  "sublocality_level_2",
-  "sublocality_level_3",
-  "sublocality_level_4",
-  "sublocality_level_5",
-]
 
 @IonicPage()
 @Component({
@@ -77,8 +68,17 @@ export class EditmapPage {
         // リバースジオコーディング 
         this.gmaps.reverseGeocoding(this.latitude, this.longitude)
         .then(vals => {
-          vals[0]["address_components"].map(address_info => {
-            typenames.map(typename => {
+          let val: {} = {};
+          for (let i in vals){
+            if (vals[i].types.indexOf("sublocality") > -1){
+              val = vals[i];
+              break;
+            }
+          }
+          
+          this.omfs.data.address = val["formatted_address"];
+          val["address_components"].map(address_info => {
+            TYPENAMES.map(typename => {
               if (address_info.types.indexOf(typename) > -1) this.omfs.data[typename] = address_info.long_name;
             })
           })
@@ -89,7 +89,6 @@ export class EditmapPage {
         resolve();
       }
     }).then(() =>{
-      
       let omref = this.omfs.batchset(batch);
 
       // 投稿内容をIndexedDBに保存しておく
@@ -114,7 +113,6 @@ export class EditmapPage {
         console.log(error)
       })
     })
-    
 
     //this.navCtrl.pop();
   }

@@ -14,6 +14,7 @@ export class SearchPage {
 
   _categories = CATEGORIES;
   isOldDataDisplay: boolean = false;
+  filterTown: string = "";
   
   popoverKbn: string = "map";
   storagename: string = "searchsettings";
@@ -37,6 +38,8 @@ export class SearchPage {
 
       if (this.popoverKbn=="list"){
         // 一覧の場合
+        this.filterTown = searchsettings["filterTown"];
+        
         if (searchsettings){
           // 検索条件保存されている場合
           searchsettings.categories.map(dspcategory => {
@@ -79,7 +82,7 @@ export class SearchPage {
           }
         })
       })
-      searchsettings = {categories: dspcategories, isOldDataDisplay: this.isOldDataDisplay};
+      searchsettings = {categories: dspcategories, isOldDataDisplay: this.isOldDataDisplay, filterTown: this.filterTown};
       this.storage.set(this.storagename, searchsettings);
     }else{
       // 地図の場合

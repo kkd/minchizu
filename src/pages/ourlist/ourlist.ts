@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
 
-import { OurMapsFirestoreProvider, DS_OurMaps, CATEGORIES } from '../../providers/firestore/ourmaps';
+import { OurMapsFirestoreProvider, DS_OurMaps, CATEGORIES, TYPENAMES } from '../../providers/firestore/ourmaps';
 //import { OurMapPhotosFirestoreProvider } from '../../providers/firestore/ourmapphotos';
 import { Storage } from '@ionic/storage';
 
@@ -34,7 +34,13 @@ export class OurlistPage {
     this.storage.get("searchsettings_list")
     .then(searchsettings => {
       
-      let dspcategories = CATEGORIES;
+      let dspcategories: string[] = [];
+      CATEGORIES.map(group => {
+        group["array"].map(categoryinfo => {
+          dspcategories.push(categoryinfo["value"]);
+        })
+      })
+
       let getdata: any = this.omfs.getAllPublicData(false);
       
       if (searchsettings){
@@ -52,7 +58,22 @@ export class OurlistPage {
           if (searchsettings){
             // 条件の設定がある場合
             if (dspcategories.indexOf(val.category) > -1){
-              this.ourmaps.push(val);
+              if (searchsettings.filterTown){
+                if (val.address.indexOf(searchsettings.filterTown) > -1){
+                  this.ourmaps.push(val);
+                }
+                /*
+                for (let typename of TYPENAMES){
+                  console.log(val[typename])
+                  if (val[typename].indexOf(searchsettings.filterTown) > -1){
+                    this.ourmaps.push(val);
+                    break;
+                  }
+                }
+                */
+              }else{
+                this.ourmaps.push(val);
+              }
             }
 
           }else{

@@ -26,6 +26,15 @@ export const CATEGORIES: {}[] = [
   ]},
 ];
 
+export const TYPENAMES: string[] = [
+  "administrative_area_level_1",
+  "locality",
+  "sublocality_level_2",
+  "sublocality_level_3",
+  "sublocality_level_4",
+  "sublocality_level_5",
+]
+
 // --------------------------------------------------
 // みんなの地図情報
 // --------------------------------------------------
@@ -43,6 +52,7 @@ export class DS_OurMaps extends DSBase {
   oldFlg: boolean = false;                  // 情報が古くなった
   viewPeriodFrom: string = null;            // 掲載期間（from）
   viewPeriodTo: string = null;              // 掲載期間（To）
+  address: string = "";                     // 住所
   administrative_area_level_1: string = ""; // 都道府県
   locality: string = "";                    // 市町村
   sublocality_level_2: string = "";         //
