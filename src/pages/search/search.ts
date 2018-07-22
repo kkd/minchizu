@@ -38,10 +38,9 @@ export class SearchPage {
 
       if (this.popoverKbn=="list"){
         // 一覧の場合
-        this.filterTown = searchsettings["filterTown"];
-        
         if (searchsettings){
           // 検索条件保存されている場合
+          this.filterTown = searchsettings["filterTown"];
           searchsettings.categories.map(dspcategory => {
             for (let group of this._categories){
               for (let category of group["array"]){
