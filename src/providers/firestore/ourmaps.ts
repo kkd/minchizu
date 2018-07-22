@@ -14,15 +14,19 @@ export const CATEGORIES: {}[] = [
     {icon: "bath",              name: "入浴施設",                   value: "bath",            marker: "\uf2cd"},
     {icon: "laundory",          name: "洗濯",                       value: "laundory",        marker: "L"},
     {icon: "meal",              name: "炊き出し",                   value: "meal",            marker: "\uf2e7"},
+    {icon: "lifeother",         name: "その他",                     value: "lifeother",       marker: ""},
   ]},
   {group: "一般", array:[
     {icon: "stop",              name: "通行止め",                   value: "stop",            marker: "\uf05e"},
     {icon: "transpotation",     name: "公共交通機関情報",           value: "transpotation",   marker: "\uf207"},
+    {icon: "generalother",      name: "その他",                     value: "generalother",    marker: ""},
   ]},
   {group: "復興作業", array:[
     {icon: "volanteercenter",   name: "ボランティア募集/センター",  value: "volanteercenter", marker: "\uf004"},
+    {icon: "trash",             name: "被災ゴミ集積所",             value: "trash",          marker: ""},
     {icon: "reliefgoods",       name: "物資拠点",                   value: "reliefgoods",     marker: "\uf0d1"},
     {icon: "report",            name: "被害報告",                   value: "report",          marker: ""},
+    {icon: "restorationother",  name: "その他",                     value: "restorationother",marker: ""},
   ]},
 ];
 
