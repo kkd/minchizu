@@ -1,7 +1,7 @@
 <form #myForm="ngForm" (ngSubmit)="submit($event)">
   <ion-item-divider color="light">
     絞り込み条件
-    <button item-end ion-button color="light" small>
+    <button item-end ion-button color="primary" small outline>
       条件を保存する
     </button>
   </ion-item-divider>
@@ -14,13 +14,20 @@
     </ion-item>
   </ion-list>
   
-  <!--
-  <ion-list *ngFor="let c of _categories;">
-    <ion-list-header>{{c.group}}</ion-list-header>
-    <ion-item *ngFor="let a of c.array;">
-      <ion-label><img style="width:20px" src='../../../assets/mapmarker/{{a.icon}}.png'> {{a.name}}</ion-label>
-      <ion-checkbox [(ngModel)]="a.isdisplay" name="{{a.value}}"></ion-checkbox>
+  <ion-list *ngIf="popoverKbn=='list'">
+    <ion-list-header>地域</ion-list-header>
+    <ion-item>
+      <ion-input [(ngModel)]="filterTown" name="filterTown" placeholder="絞り込みたい市や町名など" clearInput></ion-input>
     </ion-item>
   </ion-list>
-  -->
+
+  <div *ngIf="popoverKbn=='list'">
+    <ion-list *ngFor="let c of _categories;">
+      <ion-list-header>{{c.group}}</ion-list-header>
+      <ion-item *ngFor="let a of c.array;">
+        <ion-label><img style="width:20px" src='../../../assets/mapmarker/{{a.icon}}.png'> {{a.name}}</ion-label>
+        <ion-checkbox [(ngModel)]="a.isdisplay" name="{{a.value}}"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+  </div>
 </form>

@@ -4,8 +4,10 @@ import { Storage } from '@ionic/storage';
 import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
 
-import { OurMapsFirestoreProvider, CATEGORIES } from '../../providers/firestore/ourmaps';
+import { OurMapsFirestoreProvider, CATEGORIES, TYPENAMES } from '../../providers/firestore/ourmaps';
 import { OurMapPhotosFirestoreProvider } from '../../providers/firestore/ourmapphotos';
+
+import { GmapsProvider } from '../../providers/gmaps/gmaps';
 
 @IonicPage()
 @Component({
@@ -18,7 +20,7 @@ export class EditmapPage {
 
   latitude: number = null;
   longitude: number = null;
-
+  
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -29,10 +31,12 @@ export class EditmapPage {
     private afs: AngularFirestore,
     private omfs: OurMapsFirestoreProvider,
     private ompfs: OurMapPhotosFirestoreProvider,
+    private gmaps: GmapsProvider,
   ) {
   }
 
   ionViewDidLoad() {
+
   }
 
   // --------------------------------------------
@@ -44,11 +48,7 @@ export class EditmapPage {
 
     this.omfs.data.publicFlg = true;
     this.omfs.data.infoDate = firebase.firestore.FieldValue.serverTimestamp();
-    
-    if (this.latitude && this.longitude){
-      this.omfs.setlatlon(Number(this.latitude), Number(this.longitude));
-    }
-    
+    // カテゴリー
     if (this.omfs.data.category){
       for (let a of CATEGORIES){
         for (let c of a["array"]){
@@ -60,28 +60,58 @@ export class EditmapPage {
       }
     }
     
-    let omref = this.omfs.batchset(batch);
+    new Promise((resolve, reject) => {
+      // 位置情報
+      if (this.latitude && this.longitude){
+        this.omfs.setlatlon(Number(this.latitude), Number(this.longitude));
+        
+        // リバースジオコーディング 
+        this.gmaps.reverseGeocoding(Number(this.latitude), Number(this.longitude))
+        .then(vals => {
+          let val: {} = {};
+          for (let i in vals){
+            if (vals[i].types.indexOf("sublocality") > -1){
+              val = vals[i];
+              break;
+            }
+          }
+          
+          this.omfs.data.address = val["formatted_address"];
+          val["address_components"].map(address_info => {
+            TYPENAMES.map(typename => {
+              if (address_info.types.indexOf(typename) > -1) this.omfs.data[typename] = address_info.long_name;
+            })
+          })
+          
+          resolve();
+        })
+      }else{
+        resolve();
+      }
+    }).then(() =>{
+      let omref = this.omfs.batchset(batch);
 
-    // 投稿内容をIndexedDBに保存しておく
-    this.storage.get("myposts")
-    .then(posts => {
-      if (!posts) posts = [];
-      posts.push(omref.path);
-      this.storage.set("myposts", posts);
-    })
-
-    this.ompfs.parentDocPath = omref.path;
-    this.ompfs.allbatchset(batch)
-    .then(val => {
-      return this.ompfs.allbatchset_URL(batch, val);
-    }).then(() => {
-      // コミット
-      batch.commit();
-      
-      // 投稿完了メッセージ
-      this.afterPostMessage();
-    }).catch(error => {
-      console.log(error)
+      // 投稿内容をIndexedDBに保存しておく
+      this.storage.get("myposts")
+      .then(posts => {
+        if (!posts) posts = [];
+        posts.push(omref.path);
+        this.storage.set("myposts", posts);
+      })
+  
+      this.ompfs.parentDocPath = omref.path;
+      this.ompfs.allbatchset(batch)
+      .then(val => {
+        return this.ompfs.allbatchset_URL(batch, val);
+      }).then(() => {
+        // コミット
+        batch.commit();
+        
+        // 投稿完了メッセージ
+        this.afterPostMessage();
+      }).catch(error => {
+        console.log(error)
+      })
     })
 
     //this.navCtrl.pop();

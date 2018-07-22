@@ -239,7 +239,7 @@ export class OurmapPage {
   // 検索画面を表示する
   // --------------------------------------------
   searchPopOver(myEvent) {
-    let popover = this.popoverCtrl.create("SearchPage");
+    let popover = this.popoverCtrl.create("SearchPage", {kbn:"map"});
     popover.onDidDismiss(data =>{
       if (data){
         this.displayMap();

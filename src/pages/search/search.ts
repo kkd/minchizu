@@ -14,6 +14,10 @@ export class SearchPage {
 
   _categories = CATEGORIES;
   isOldDataDisplay: boolean = false;
+  filterTown: string = "";
+  
+  popoverKbn: string = "map";
+  storagename: string = "searchsettings";
 
   constructor(
     public navCtrl: NavController, 
@@ -21,28 +25,43 @@ export class SearchPage {
     private storage: Storage,
     public viewCtrl: ViewController,
   ) {
+    this.popoverKbn = navParams.data.kbn;
   }
 
   ionViewDidLoad() {
     
-    this.storage.get("searchsettings")
+    if (this.popoverKbn == "list") this.storagename = "searchsettings_list";
+    
+    this.storage.get(this.storagename)
     .then(searchsettings => {
-      
-      if (searchsettings){
-        this.isOldDataDisplay = searchsettings.isOldDataDisplay;
-        /*
-        searchsettings.categories.map(dspcategory => {
-          for (let group of this._categories){
-            for (let category of group["array"]){
-              if (category["value"] == dspcategory){
-                category["isdisplay"] = true;
-                break;
+      if (searchsettings) this.isOldDataDisplay = searchsettings.isOldDataDisplay;
+
+      if (this.popoverKbn=="list"){
+        // 一覧の場合
+        this.filterTown = searchsettings["filterTown"];
+        
+        if (searchsettings){
+          // 検索条件保存されている場合
+          searchsettings.categories.map(dspcategory => {
+            for (let group of this._categories){
+              for (let category of group["array"]){
+                if (category["value"] == dspcategory){
+                  category["isdisplay"] = true;
+                  break;
+                }
               }
             }
+          })
+        }else{
+          // 検索条件保存されていない場合
+          for (let group of this._categories){
+            for (let category of group["array"]){
+              category["isdisplay"] = true;
+            }
           }
-        })
-        */
+        }
       }
+
     })
   }
   
@@ -51,23 +70,26 @@ export class SearchPage {
   // --------------------------------------------
   submit($event){
     
-    /*
-    let dspcategories: string[] = [];
-    
-    this._categories.map(group =>{
-      group["array"].map(category => {
-        if (category["isdisplay"]){
-          dspcategories.push(category["value"]);
-        }
-      })
-    })
+    let searchsettings: {} = {};
 
-    this.storage.set("searchsettings", {categories: dspcategories, isOldDataDisplay: this.isOldDataDisplay});
-    */
-    
-    let searchsettings: {} = {isOldDataDisplay: this.isOldDataDisplay};
-    this.storage.set("searchsettings", searchsettings);
-    
+    if (this.popoverKbn=="list"){
+      // 一覧の場合
+      let dspcategories: string[] = [];
+      this._categories.map(group =>{
+        group["array"].map(category => {
+          if (category["isdisplay"]){
+            dspcategories.push(category["value"]);
+          }
+        })
+      })
+      searchsettings = {categories: dspcategories, isOldDataDisplay: this.isOldDataDisplay, filterTown: this.filterTown};
+      this.storage.set(this.storagename, searchsettings);
+    }else{
+      // 地図の場合
+      searchsettings = {isOldDataDisplay: this.isOldDataDisplay};
+      this.storage.set(this.storagename, searchsettings);
+    }
+
     this.viewCtrl.dismiss(searchsettings);
   }
 
