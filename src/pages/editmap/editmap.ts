@@ -66,7 +66,7 @@ export class EditmapPage {
         this.omfs.setlatlon(Number(this.latitude), Number(this.longitude));
         
         // リバースジオコーディング 
-        this.gmaps.reverseGeocoding(this.latitude, this.longitude)
+        this.gmaps.reverseGeocoding(Number(this.latitude), Number(this.longitude))
         .then(vals => {
           let val: {} = {};
           for (let i in vals){
