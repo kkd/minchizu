@@ -14,7 +14,7 @@ import { OurMapPhotosFirestoreProvider, DS_OurMapPhotos } from '../../providers/
 })
 export class OurlistDetailPage {
   
-  ourmap: DS_OurMaps = null;
+  ourmap: DS_OurMaps = new DS_OurMaps;
   ourmapphotos: DS_OurMapPhotos[] = [];
   pkey: string = "";
   styles: {} = {"background-color": ""};
@@ -26,11 +26,25 @@ export class OurlistDetailPage {
     private omfs: OurMapsFirestoreProvider,
     private ompfs: OurMapPhotosFirestoreProvider,
   ) {
-    this.ourmap = this.navParams.get("ourmap");
     this.pkey = this.navParams.get("pkey");
+    
+    if (this.navParams.hasOwnProperty("ourmap")){
+      this.ourmap = this.navParams.get("ourmap");
+    }else{
+      this.omfs.getDocumentByPkey(this.pkey)
+      .subscribe(val => {
+        console.log("--- 2")
+        val = val.payload.data();
+        console.log(val)
+        if (val.infoDate) val.infoDate = val.infoDate.toDate();
+        this.ourmap = val;
+      })
+    }
   }
 
   ionViewDidLoad() {
+
+    console.log("--- 3")
     // 背景色をセットする
     if (this.ourmap.oldFlg) this.setOldViewStyle();
 
@@ -41,7 +55,6 @@ export class OurlistDetailPage {
         if (val.originDateTime) val.originDateTime = val.originDateTime.toDate();
         this.ourmapphotos.push(val);
       })
-      
     })
   }
   
