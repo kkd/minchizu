@@ -33,9 +33,7 @@ export class OurlistDetailPage {
     }else{
       this.omfs.getDocumentByPkey(this.pkey)
       .subscribe(val => {
-        console.log("--- 2")
         val = val.payload.data();
-        console.log(val)
         if (val.infoDate) val.infoDate = val.infoDate.toDate();
         this.ourmap = val;
       })
